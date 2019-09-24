@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hujie.mapper.ArticleMapper">
+    <select id="showAll" resultType="Article">
+        select * from article  limit ${(page-1)*rows},${rows}
+    </select>
+
+    <select id="totalCount" resultType="Integer">
+        select count(*) from article
+    </select>
+
+    <insert id="addArticle">
+        insert into article (id, title, content,
+        author, create_date)
+        values (#{id,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{content,jdbcType=INTEGER},#{author,jdbcType=VARCHAR}, #{create_date,jdbcType=DATE}
+      )
+    </insert>
+
+
+    <update id="updateArt" >
+        update article
+        <set>
+            <if test="title!= null">
+                title=#{title,jdbcType=VARCHAR},
+            </if>
+            <if test="author!= null">
+                author=#{author,jdbcType=VARCHAR},
+            </if>
+            <if test="create_date!= null">
+                create_date=#{create_date,jdbcType=TIMESTAMP},
+            </if>
+            <if test="content!= null">
+                content=#{content,jdbcType=VARCHAR},
+            </if>
+
+        </set>
+        where id=#{id,jdbcType=VARCHAR}
+    </update>
+
+    <delete id="delArt">
+        delete from article
+        where id in
+        <foreach collection="array" open="(" separator="," close=")" item="id">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="showAlls" resultType="Article">
+        select * from article
+    </select>
+</mapper>

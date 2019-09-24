@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hujie.mapper.UserMapper">
+    <select id="showAllUser" resultType="User">
+        select * from user limit ${(page-1)*rows},${rows}
+    </select>
+
+    <select id="totalCount" resultType="Integer">
+        select count(*) from user
+    </select>
+
+    <update id="updateUser" parameterType="User">
+        update user
+        <set>
+            <if test="phone_num!= null">
+                phone_num=#{phone_num,jdbcType=VARCHAR},
+            </if>
+            <if test="password!= null">
+                password=#{password,jdbcType=VARCHAR},
+            </if>
+            <if test="status!= null">
+                status=#{status,jdbcType=VARCHAR},
+            </if>
+            <if test="create_date!= null">
+                create_date=#{create_date,jdbcType=TIMESTAMP},
+            </if>
+            <if test="sex!= null">
+                sex=#{sex,jdbcType=VARCHAR},
+            </if>
+            <if test="address!= null">
+                address=#{address,jdbcType=VARCHAR},
+            </if>
+
+            <if test="sign!= null">
+                sign=#{sign,jdbcType=VARCHAR},
+            </if>
+            <if test="name!= null">
+                name=#{name,jdbcType=VARCHAR},
+            </if>
+            <if test="dname!= null">
+                dname=#{dname,jdbcType=VARCHAR},
+            </if>
+            <if test="salt!= null">
+                salt=#{salt,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where id=#{id,jdbcType=VARCHAR}
+
+    </update>
+
+    <select id="showAll" resultType="User">
+        select * from user
+    </select>
+
+    <insert id="addUser">
+        insert into user(id,phone_num,password,status,create_date,sex,address,sign,name,salt,dname)
+        values (#{id},#{phone_num},#{password},#{status},#{create_date},#{sex},#{address},#{sign},#{name},#{salt},#{dname})
+    </insert>
+
+    <select id="queryBySexAndMonth" resultType="Integer">
+        select count(*) from user where sex=#{sex} and month(create_date)=#{months} GROUP BY month(create_date)
+   </select>
+
+    <select id="showAllCity" resultType="City">
+        select address name,count(*) value from user where sex=#{sex} group by address
+    </select>
+
+
+
+
+</mapper>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hujie.mapper.ChapterMapper">
+
+    <select id="showChapter" resultType="Chapter">
+        select * from chapter where albumId = #{albumId} limit ${(page-1)*rows},${rows}
+    </select>
+
+    <select id="totalCount" resultType="Integer">
+        select count(1) from chapter
+    </select>
+
+    <insert id="insert" parameterType="Chapter">
+        insert into chapter (id, albumId, title)
+        values (#{id,jdbcType=VARCHAR}, #{albumId,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR})
+    </insert>
+
+
+    <update id="updateByPrimaryKey" parameterType="Chapter">
+        update chapter set
+        size = #{size,jdbcType=VARCHAR},
+        duration = #{duration,jdbcType=VARCHAR},
+        url = #{url,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <delete id="delete">
+        delete from chapter where id in
+        <foreach collection="array" open="(" separator="," close=")" item="id">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

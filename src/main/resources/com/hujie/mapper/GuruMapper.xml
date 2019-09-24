@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hujie.mapper.GuruMapper">
+    <select id="showAll" resultType="Guru">
+        select * from guru limit ${(page-1)*rows},${rows}
+    </select>
+
+    <select id="totalCount" resultType="Integer">
+        select count(*) from guru
+    </select>
+
+    <update id="updateGuru" parameterType="Guru">
+        update guru <set>
+        <if test="dharma!= null" >
+            dharma=#{dharma,jdbcType=VARCHAR},
+        </if>
+        <if test="head_pic!= null" >
+            head_pic=#{head_pic,jdbcType=VARCHAR},
+        </if>
+        <if test="status!= null" >
+            status=#{status,jdbcType=VARCHAR},
+        </if>
+        <if test="create_date!= null" >
+            create_date=#{create_date,jdbcType=TIMESTAMP}
+        </if>
+
+    </set>
+        where id =#{id,jdbcType=VARCHAR}
+    </update>
+
+</mapper>

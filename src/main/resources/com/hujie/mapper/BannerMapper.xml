@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hujie.mapper.BannerMapper">
+    <select id="showAllBanner" resultType="Banner">
+        select * from banner limit ${(page-1)*rows},${rows}
+    </select>
+
+    <select id="totalCount" resultType="Integer">
+        select count(*) from banner
+    </select>
+
+    <insert id="addBanner">
+        insert into banner values (#{id},#{title},#{img_pic},#{status},#{create_date},#{description})
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="Banner">
+        update banner
+        <set>
+            <if test="title!= null">
+                title=#{title,jdbcType=VARCHAR},
+            </if>
+            <if test="img_pic!= null">
+                img_pic=#{img_pic,jdbcType=VARCHAR},
+            </if>
+            <if test="status!= null">
+                status=#{status,jdbcType=VARCHAR},
+            </if>
+            <if test="create_date!= null">
+                create_date=#{create_date,jdbcType=TIMESTAMP},
+            </if>
+            <if test="description!= null">
+                description=#{description,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where id=#{id,jdbcType=VARCHAR}
+    </update>
+
+
+
+    <update id="updateBanner" parameterType="Banner">
+        update banner
+        <set>
+            <if test="title!= null">
+                title=#{title,jdbcType=VARCHAR},
+            </if>
+            <if test="img_pic!= null">
+                img_pic=#{img_pic,jdbcType=VARCHAR},
+            </if>
+            <if test="status!= null">
+                status=#{status,jdbcType=VARCHAR},
+            </if>
+            <if test="create_date!= null">
+                create_date=#{create_date,jdbcType=TIMESTAMP},
+            </if>
+            <if test="description!= null">
+                description=#{description,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where id=#{id,jdbcType=VARCHAR}
+    </update>
+
+    <delete id="deleteBanner">
+        delete from banner where id
+        in <foreach collection="array" open="(" separator="," close=")" item="id">
+              #{id}
+           </foreach>
+    </delete>
+
+    <select id="showAll" resultType="Banner">
+        select * from banner
+    </select>
+
+</mapper>
