@@ -24,7 +24,7 @@ public class AdminController {
         session.setAttribute( "admin",admin );
         String code = (String)session.getAttribute( "code" );
         if(code.equals( enCode )){
-            if(name.equals(admin.getName()  )){
+            if(name.equals(admin.getName())){
                 if(password.equals( admin.getPassword() )){
                     map.put( "msg","ok" );
                 }else{
